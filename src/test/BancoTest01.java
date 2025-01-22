@@ -1,6 +1,8 @@
 package test;
 
 import domain.*;
+import domain.excecoes.ClienteNaoEncontradoException;
+import domain.excecoes.ContaNaoEncontradaException;
 
 public class BancoTest01 {
     public static void main(String[] args) {
@@ -15,18 +17,21 @@ public class BancoTest01 {
 
         banco.adicionarCliente(cliente1);
         banco.adicionarCliente(cliente2);
+
         banco.adicionarConta(conta1);
         banco.adicionarConta(conta2);
         banco.adicionarConta(conta3);
 
-        Cliente clienteBuscado = banco.bucarClientePorNome("Jorge");
+        try {
+            banco.bucarClientePorNome("Thiago");
+        } catch (ClienteNaoEncontradoException e) {
+            e.printStackTrace();
+        }
 
-        if (clienteBuscado == null) {
-            System.out.println("Cliente não encontrado, tente novamente!");
-        } else {
-            System.out.println("Cliente encontrado!");
-            System.out.println(clienteBuscado.getNome());
-            System.out.println(clienteBuscado.getCpf());
+        try {
+            banco.buscarContaPorNumero("3601254");
+        } catch (ContaNaoEncontradaException e) {
+            e.printStackTrace();
         }
 
     }

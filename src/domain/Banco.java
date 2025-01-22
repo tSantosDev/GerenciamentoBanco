@@ -1,5 +1,9 @@
 package domain;
 
+import domain.excecoes.ClienteNaoEncontradoException;
+import domain.excecoes.ContaExistenteException;
+import domain.excecoes.ContaNaoEncontradaException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,33 +20,33 @@ public class Banco {
         this.clientes.add(cliente);
     }
 
-    public Cliente bucarClientePorNome(String nome) {
+    public void bucarClientePorNome(String nome) throws ClienteNaoEncontradoException {
         for (Cliente cliente : clientes) {
             if (cliente.getNome().equalsIgnoreCase(nome)) {
-                return cliente;
-            }
-        }
-        return null;
-    }
-
-    public void adicionarConta(Conta conta) {
-        for (Conta conta1 : contas){
-            if (conta.getNumero().equals(conta1.getNumero())){
-                //lançar exceção que falta criar
-                return;
-            } else {
-                this.contas.add(conta);
+                System.out.println("Nome: " + cliente.getNome());
+                System.out.println("CPF: " + cliente.getCpf());
                 break;
+            } else {
+                throw new ClienteNaoEncontradoException("Cliente não encontrado.");
             }
         }
     }
 
-    public Conta buscarContaPorNumero(String numero) {
+    public void adicionarConta(Conta conta)  {
+        this.contas.add(conta);
+    }
+
+    public void buscarContaPorNumero(String numero) throws ContaNaoEncontradaException {
         for(Conta conta : contas) {
             if(conta.getNumero().equalsIgnoreCase(numero)) {
-                return conta;
+                System.out.println("Número: " + conta.getNumero());
+                System.out.println("Saldo: " + conta.getSaldo());
+                System.out.println("Titular: " + conta.getTitular().getNome());
+                break;
+            }else {
+                throw new ContaNaoEncontradaException("Conta não encontrada");
             }
         }
-        return null;
+
     }
 }
